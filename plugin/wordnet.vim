@@ -18,9 +18,12 @@
 
 command! -nargs=+ Wordnet call wordnet#overviews("<args>")
 
-noremap  <F7>     :call wordnet#overviews("<C-r>=expand("<cword>")<CR>")<CR>
-noremap  <S-F7>   :call wordnet#synonyms("<C-r>=expand("<cword>")<CR>")<CR>
-noremap  <C-S-F7> :call wordnet#browse("<C-r>=expand("<cword>")<CR>")<CR>
+nnoremap  <F7>     :call wordnet#overviews("<C-r>=expand("<cword>")<CR>")<CR>
+nnoremap  <S-F7>   :call wordnet#synonyms("<C-r>=expand("<cword>")<CR>")<CR>
+nnoremap  <C-S-F7> :call wordnet#browse("<C-r>=expand("<cword>")<CR>")<CR>
+vnoremap  <F7>     :call wordnet#overviews("<C-r>=wordnet#get_word()<CR>")<CR>
+vnoremap  <S-F7>   :call wordnet#synonyms("<C-r>=wordnet#get_word()<CR>")<CR>
+vnoremap  <C-S-F7> :call wordnet#browse("<C-r>=wordnet#get_word()<CR>")<CR>
 
 let s:wordnet_buffer_id = -1
 

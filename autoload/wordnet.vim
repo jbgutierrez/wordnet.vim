@@ -1,9 +1,24 @@
+function! wordnet#escape_quotes (word)
+  return "'" . substitute(a:word, "'", "''", 'g')  .  "'"
+endfunction
+
+function! wordnet#get_word() range
+  try
+    let a_save = @a
+    normal! gv"ay
+    return substitute(@a, '\v(\n|\s)+', ' ', 'g')
+  finally
+    let @a = a_save
+  endtry
+endfunction
+
 function! wordnet#browse (word)
-  call system(g:wordnet_path . "wnb " . a:word)
+  call system(g:wordnet_path . "wnb " . wordnet#escape_quotes(a:word))
 endfunction
 
 function! wordnet#overviews (word)
-  let definition = system(g:wordnet_path . "wn " . a:word . " -over")
+  echom g:wordnet_path . "wn " . wordnet#escape_quotes(a:word) . " -over"
+  let definition = system(g:wordnet_path . "wn " . wordnet#escape_quotes(a:word) . " -over")
   if definition == ""
     let definition = "Word not found: " . a:word
   endif
@@ -11,7 +26,7 @@ function! wordnet#overviews (word)
 endfunction
 
 function! wordnet#synonyms (word)
-  let synonyms = system(g:wordnet_path . "wn " . a:word . " -synsn -synsv -synsa -synsr")
+  let synonyms = system(g:wordnet_path . "wn " . wordnet#escape_quotes(a:word) . " -synsn -synsv -synsa -synsr")
   if synonyms == ""
     let synonyms = "Word not found: " . a:word
   endif
